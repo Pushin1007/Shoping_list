@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt' // добавляем нужный плагин
 }
 
 android {
@@ -34,6 +35,12 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
+    //Внедряем свои зависимости
+    implementation 'androidx.room:room-ktx:2.4.2' // библиотека баз данных
+    kapt 'androidx.room:room-compiler:2.4.2' // включаем аннотации к котлину
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'// библиока лайв дата
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'// библиока вью модел
+    implementation 'androidx.preference:preference-ktx:1.2.0' //библиотека настроек
 
 
 
