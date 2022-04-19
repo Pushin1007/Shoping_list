@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
-
-@Entity(tableName = "shoping_list_names")
-data class ShopingListNames(
+// таблица списков покупок
+@Entity(tableName = "shopping_list_names")
+data class ShoppingListNames(
     @PrimaryKey(autoGenerate = true) //Идентификатор будет генерироваться первая колонка автоматически
     val id: Int?,
 
