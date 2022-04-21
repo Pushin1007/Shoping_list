@@ -22,6 +22,8 @@ import com.pd.shopinglist.entities.ShoppingListNames
 //  будет создавать базу данных либо давать доступ к ней
 abstract class MainDataBase : RoomDatabase() {
 
+    abstract fun getDao():Dao // получаем доступ к интерфейсу  Dao
+
     companion object {
         //  companion object дает возможность использовать то что внутри без инициализации класса,
         //  аналог в джава статическая функция
