@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomVavListener() { // слушатель нажатий  в меню Bottom Navigation View
-        binding.bottomNav.setOnItemSelectedListener {
+        binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.settings -> {
                     Log.d("MyLog","settings")

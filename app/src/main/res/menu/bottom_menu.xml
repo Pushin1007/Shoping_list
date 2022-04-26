@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<item
-    android:id="@+id/settings"
-    android:title="@string/settings"
-    android:icon="@drawable/ic_settings"
-    app:showAsAction="ifRoom"
-    />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+
+        />
     <item
         android:id="@+id/notes"
-        android:title="@string/notes"
         android:icon="@drawable/ic_notes"
-        app:showAsAction="ifRoom"
+        android:title="@string/notes"
+
         />
     <item
         android:id="@+id/shop_list"
-        android:title="@string/shop_list"
         android:icon="@drawable/ic_shopping_list"
-        app:showAsAction="ifRoom"
+        android:title="@string/shop_list"
+
         />
     <item
         android:id="@+id/new_note"
-        android:title="@string/newNote"
         android:icon="@drawable/ic_note_add"
-        app:showAsAction="ifRoom"
+        android:title="@string/newNote"
+
         />
 </menu>
