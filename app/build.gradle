@@ -39,7 +39,8 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
     //Внедряем свои зависимости
-    implementation 'androidx.room:room-ktx:2.4.2' // библиотека баз данных
+    implementation 'androidx.room:room-ktx:2.4.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'// библиотека баз данных
     kapt 'androidx.room:room-compiler:2.4.2' // включаем аннотации к котлину
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'// библиока лайв дата
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'// библиока вью модел
