@@ -1,5 +1,6 @@
 package com.pd.shopinglist.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.pd.shopinglist.R
 import com.pd.shopinglist.activities.MainApp
+import com.pd.shopinglist.activities.NewNoteActivity
 import com.pd.shopinglist.databinding.FragmentNoteBinding
 import com.pd.shopinglist.db.MainViewModel
 
@@ -19,7 +21,7 @@ class NoteFragment : BaseFragment() {
     }
 
     override fun onCkickNew() {
-
+        startActivity(Intent(activity, NewNoteActivity::class.java))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
