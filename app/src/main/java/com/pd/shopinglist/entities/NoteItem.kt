@@ -3,6 +3,7 @@ package com.pd.shopinglist.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 //таблица для хранения заметок из блокнота
 
@@ -23,4 +24,4 @@ data class NoteItem(
     @ColumnInfo(name = "category") // колонка категория заметки
     val category: String
 
-)
+) : Serializable

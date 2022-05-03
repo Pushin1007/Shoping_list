@@ -12,16 +12,21 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pd.shopinglist.R
 import com.pd.shopinglist.activities.MainApp
 import com.pd.shopinglist.activities.NewNoteActivity
 import com.pd.shopinglist.databinding.FragmentNoteBinding
 import com.pd.shopinglist.db.MainViewModel
+import com.pd.shopinglist.db.NoteAdapter
+import com.pd.shopinglist.entities.NoteItem
 
 
 class NoteFragment : BaseFragment() {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>//для того чтобы ждать результата
+    private lateinit var adapter: NoteAdapter //адаптер для recycler view
+
 
     private val mainViewModel: MainViewModel by activityViewModels {
         MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
@@ -52,15 +57,37 @@ class NoteFragment : BaseFragment() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                Log.d("MyLog", "title: ${it.data?.getStringExtra(TITLE_KEY)} ")
-                Log.d("MyLog", "description: ${it.data?.getStringExtra(DESCRIPTION_KEY)} ")
+
+                mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem) // отправляем по байтам как класс NoteItem
             }
         }
     }
 
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) { //функция запускается когда все view созданы
+        super.onViewCreated(view, savedInstanceState)
+        initRcView()
+        observer()
+    }
+
+    private fun observer() { //observerкоторая будет следить за изменениями в базе данных, и будет каждый раз выдавать новый обновленный список
+        mainViewModel.allNotes.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
+    }
+
+
+    private fun initRcView() = with(binding) { //инициализируем адаптер и RV
+        rcViewNote.layoutManager =
+            LinearLayoutManager(activity) // layoutManager заметки будут идти по вертикали
+        adapter = NoteAdapter()
+        rcViewNote.adapter = adapter
+    }
+
     companion object {
-        const val TITLE_KEY = "title_key"
-        const val DESCRIPTION_KEY = "description_key"
+        const val NEW_NOTE_KEY = "new_note_key"
 
         @JvmStatic
         fun newInstance() = NoteFragment()

@@ -7,8 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import com.pd.shopinglist.R
 import com.pd.shopinglist.databinding.ActivityNewNoteBinding
-import com.pd.shopinglist.fragments.NoteFragment.Companion.DESCRIPTION_KEY
-import com.pd.shopinglist.fragments.NoteFragment.Companion.TITLE_KEY
+import com.pd.shopinglist.entities.NoteItem
+import com.pd.shopinglist.fragments.NoteFragment.Companion.NEW_NOTE_KEY
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewNoteActivity : AppCompatActivity() {
 
@@ -38,16 +40,33 @@ class NewNoteActivity : AppCompatActivity() {
     private fun setMainResult() {
         val intent = Intent().apply {
             putExtra(
-                TITLE_KEY,
-                binding.edTitle.toString()
-            )//взяли текст из вью и поместили в наш интент
-            putExtra(
-                DESCRIPTION_KEY,
-                binding.edDescription.toString()
-            )//взяли текст из вью и поместили в наш интент
+                NEW_NOTE_KEY,
+                createNoteItem()
+            )//взяли новую заметку, заполнили поля, сериализовали и поместили в наш интент
+
         }
-        setResult(RESULT_OK,intent) // отправляем результат
+        setResult(RESULT_OK, intent) // отправляем результат
         finish() //закрываем активити после передачи данных
+    }
+
+
+    private fun createNoteItem(): NoteItem { // заполняем нашу заметку
+        return NoteItem(
+            null,
+            binding.edTitle.text.toString(),
+            binding.edDescription.text.toString(),
+            getCurrentTime(),
+            ""
+        )
+
+    }
+
+    private fun getCurrentTime(): String {
+        val formatter = SimpleDateFormat( //указываем в каком формате мы хотим получить время
+            "hh:mm - dd/MM/yyyy",
+            Locale.getDefault()
+        )
+        return formatter.format(Calendar.getInstance().time)
     }
 
     private fun actionBarSettings() {//подключаем кнопку назад в actionBar
