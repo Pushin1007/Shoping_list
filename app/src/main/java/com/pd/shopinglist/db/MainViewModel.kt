@@ -16,6 +16,11 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.insertNote(note)
     }
 
+    fun deleteNote(id: Int) = viewModelScope.launch {
+        //запускаем корутину т.к. процесс записи может быть длительным
+        dao.deleteNote(id)
+    }
+
     class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T { // эта функция будет создавать  ViewModel
             if (modelClass.isAssignableFrom(MainViewModel::class.java)) { // если modelClass из группы MainViewModel

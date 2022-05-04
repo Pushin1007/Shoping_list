@@ -22,7 +22,7 @@ import com.pd.shopinglist.db.NoteAdapter
 import com.pd.shopinglist.entities.NoteItem
 
 
-class NoteFragment : BaseFragment() {
+class NoteFragment : BaseFragment(), NoteAdapter.Listener {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>//для того чтобы ждать результата
     private lateinit var adapter: NoteAdapter //адаптер для recycler view
@@ -82,7 +82,7 @@ class NoteFragment : BaseFragment() {
     private fun initRcView() = with(binding) { //инициализируем адаптер и RV
         rcViewNote.layoutManager =
             LinearLayoutManager(activity) // layoutManager заметки будут идти по вертикали
-        adapter = NoteAdapter()
+        adapter = NoteAdapter(this@NoteFragment) //передаем лисенер фрагмента
         rcViewNote.adapter = adapter
     }
 
@@ -91,5 +91,9 @@ class NoteFragment : BaseFragment() {
 
         @JvmStatic
         fun newInstance() = NoteFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        mainViewModel.deleteNote(id)
     }
 }

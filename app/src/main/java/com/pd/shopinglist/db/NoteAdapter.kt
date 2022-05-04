@@ -11,7 +11,8 @@ import com.pd.shopinglist.R
 import com.pd.shopinglist.databinding.NoteListItemBinding
 import com.pd.shopinglist.entities.NoteItem
 
-class NoteAdapter : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
+class NoteAdapter(private val listener: Listener) :
+    ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
 
 /*
  класс ItemHolder специальный класс который будет создавать и содержать разметку note_list_item
@@ -26,7 +27,7 @@ class NoteAdapter : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator
 
     //функция будет заполнять разметку созданную выше
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener) //каждый раз когда заполняется элемент добавится 50 слушателей
     }
 
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,10 +35,14 @@ class NoteAdapter : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator
             NoteListItemBinding.bind(itemView)//тоесть пожключить вью itemView к нашему классу NoteListItemBinding
 
         //будем заполнять нашу разметку из нашего класса  NoteItem
-        fun setData(note: NoteItem) = with(binding) {
+        fun setData(note: NoteItem, listener: Listener) = with(binding) {
             tvTitle.text = note.title
             tvDescription.text = note.content
             tvDate.text = note.time
+            // при нажатии на кнопку
+            btnDelete.setOnClickListener {
+                listener.deleteItem(note.id!!) // удаляем заметку по идентификатору
+            }
         }
 
         companion object {
@@ -67,5 +72,8 @@ DiffUtil Class будет сравнивать элементы и перери�
 
     }
 
+    interface Listener { //специальный интерфейс для реализации структуры mvwm
+        fun deleteItem(id: Int) // передаем идентификатор заметки
 
+    }
 }

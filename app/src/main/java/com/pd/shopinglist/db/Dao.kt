@@ -11,7 +11,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface Dao {
     @Query("SELECT * FROM note_list")//получение всех заметок
-fun getAllNotes(): Flow<List<NoteItem>> // Flow будет подключать базу данных к нашему списку и будет автоматически все обновлять
+    fun getAllNotes(): Flow<List<NoteItem>> // Flow будет подключать базу данных к нашему списку и будет автоматически все обновлять
+
+    @Query("DELETE FROM note_list WHERE id IS :id")//удаление заметки
+    suspend fun deleteNote(id :Int)
 
     @Insert
     //suspend - т.к функция будет работать внутри корутины
