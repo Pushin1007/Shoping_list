@@ -43,6 +43,9 @@ class NoteAdapter(private val listener: Listener) :
             btnDelete.setOnClickListener {
                 listener.deleteItem(note.id!!) // удаляем заметку по идентификатору
             }
+            itemView.setOnClickListener {  //слушатель нажатий на весь элемент
+                listener.onClickItem(note)
+            }
         }
 
         companion object {
@@ -74,6 +77,7 @@ DiffUtil Class будет сравнивать элементы и перери�
 
     interface Listener { //специальный интерфейс для реализации структуры mvwm
         fun deleteItem(id: Int) // передаем идентификатор заметки
+        fun onClickItem(note :NoteItem) // передаем идентификатор заметки
 
     }
 }

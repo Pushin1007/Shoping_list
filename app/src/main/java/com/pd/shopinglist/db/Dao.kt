@@ -3,6 +3,7 @@ package com.pd.shopinglist.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.pd.shopinglist.entities.NoteItem
 import kotlinx.coroutines.flow.Flow
 
@@ -14,9 +15,12 @@ interface Dao {
     fun getAllNotes(): Flow<List<NoteItem>> // Flow будет подключать базу данных к нашему списку и будет автоматически все обновлять
 
     @Query("DELETE FROM note_list WHERE id IS :id")//удаление заметки
-    suspend fun deleteNote(id :Int)
+    suspend fun deleteNote(id: Int)
 
     @Insert
     //suspend - т.к функция будет работать внутри корутины
     suspend fun insertNote(note: NoteItem)// функция записи в базу данных заметки
+
+    @Update
+    suspend fun updateNote(note: NoteItem)// функция обновления заметки в базу данных
 }

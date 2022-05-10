@@ -16,6 +16,11 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.insertNote(note)
     }
 
+    fun updateNote(note: NoteItem) = viewModelScope.launch {
+        //запускаем корутину т.к. процесс записи может быть длительным
+        dao.updateNote(note)
+    }
+
     fun deleteNote(id: Int) = viewModelScope.launch {
         //запускаем корутину т.к. процесс записи может быть длительным
         dao.deleteNote(id)
