@@ -6,5 +6,13 @@
         android:id="@+id/id_save"
         android:icon="@drawable/ic_save"
         android:title="Save"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/id_bold"
+        android:icon="@drawable/ic_bold"
+        android:title="Bold"
+        android:orderInCategory="1"
         app:showAsAction="ifRoom"/>
 </menu>

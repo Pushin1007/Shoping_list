@@ -1,8 +1,11 @@
 package com.pd.shopinglist.activities
 
 import android.content.Intent
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
 import com.pd.shopinglist.R
@@ -57,9 +60,35 @@ class NewNoteActivity : AppCompatActivity() {
 
         } else if (item.itemId == android.R.id.home) {
             finish()
-        }
+        } else if (item.itemId == R.id.id_bold) {
+            setBoldForSelectedText()
+                    }
         return super.onOptionsItemSelected(item)
 
+    }
+
+    //функция которая делает выделенны текст жирным
+    private fun setBoldForSelectedText() = with(binding) {
+        val startPosition = edDescription.selectionStart // начальная позиция выделенного текста
+        val endPosition = edDescription.selectionEnd // конечная позиция выделенного текста
+        val styles = edDescription.text.getSpans(
+            startPosition,
+            endPosition,
+            StyleSpan::class.java
+        ) // функция говорит сколько стилей в выделенном тексте
+
+        //если выбранное слово уже жирным шрифтом
+
+        var boldStyle: StyleSpan? = null
+
+        if (styles.isNotEmpty()) {
+            edDescription.text.removeSpan(styles[0]) // если есть стиль, то обнудяем его
+        } else {
+            boldStyle = StyleSpan(Typeface.BOLD) // если нет стиля то делаем жирным
+        }
+        edDescription.text.setSpan(boldStyle,startPosition,endPosition,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE )// тип добавления
+        edDescription.text.trim() //функция удаляет все пробелы
+        edDescription.setSelection(startPosition)//возвращаем курсор в начальную позицию
     }
 
     private fun setMainResult() {
