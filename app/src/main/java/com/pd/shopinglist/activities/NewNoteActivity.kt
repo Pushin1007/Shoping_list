@@ -13,6 +13,7 @@ import com.pd.shopinglist.databinding.ActivityNewNoteBinding
 import com.pd.shopinglist.entities.NoteItem
 import com.pd.shopinglist.fragments.NoteFragment.Companion.EDIT_STATE_KEY
 import com.pd.shopinglist.fragments.NoteFragment.Companion.NEW_NOTE_KEY
+import com.pd.shopinglist.utils.HtmlManadger
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,11 +40,11 @@ class NewNoteActivity : AppCompatActivity() {
 
     }
 
-    private fun fillNote() =
+    private fun fillNote() = // функция заполения заметки
         with(binding) { // эта функция запустится только если Note не равен null
 
             edTitle.setText(note?.title)
-            edDescription.setText(note?.content)
+            edDescription.setText(HtmlManadger.getFromHtml(note?.content!!).trim())// берем из бызы html и превращаем его в Spanneble текст
 
         }
 
@@ -62,7 +63,7 @@ class NewNoteActivity : AppCompatActivity() {
             finish()
         } else if (item.itemId == R.id.id_bold) {
             setBoldForSelectedText()
-                    }
+        }
         return super.onOptionsItemSelected(item)
 
     }
@@ -86,7 +87,12 @@ class NewNoteActivity : AppCompatActivity() {
         } else {
             boldStyle = StyleSpan(Typeface.BOLD) // если нет стиля то делаем жирным
         }
-        edDescription.text.setSpan(boldStyle,startPosition,endPosition,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE )// тип добавления
+        edDescription.text.setSpan(
+            boldStyle,
+            startPosition,
+            endPosition,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )// тип добавления
         edDescription.text.trim() //функция удаляет все пробелы
         edDescription.setSelection(startPosition)//возвращаем курсор в начальную позицию
     }
@@ -118,7 +124,7 @@ class NewNoteActivity : AppCompatActivity() {
     private fun updateNote(): NoteItem? = with(binding) {
         return note?.copy(
             title = edTitle.text.toString(),
-            content = edDescription.text.toString()
+            content = HtmlManadger.toHtml(edDescription.text)
         )
     }
 
@@ -126,7 +132,7 @@ class NewNoteActivity : AppCompatActivity() {
         return NoteItem(
             null,
             binding.edTitle.text.toString(),
-            binding.edDescription.text.toString(),
+            HtmlManadger.toHtml(binding.edDescription.text), // при создании мы записываем в базу в виде html
             getCurrentTime(),
             ""
         )

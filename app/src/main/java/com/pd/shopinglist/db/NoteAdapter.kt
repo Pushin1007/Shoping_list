@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pd.shopinglist.R
 import com.pd.shopinglist.databinding.NoteListItemBinding
 import com.pd.shopinglist.entities.NoteItem
+import com.pd.shopinglist.utils.HtmlManadger
 
 class NoteAdapter(private val listener: Listener) :
     ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
@@ -37,7 +38,7 @@ class NoteAdapter(private val listener: Listener) :
         //будем заполнять нашу разметку из нашего класса  NoteItem
         fun setData(note: NoteItem, listener: Listener) = with(binding) {
             tvTitle.text = note.title
-            tvDescription.text = note.content
+            tvDescription.text = HtmlManadger.getFromHtml(note.content).trim() // берем из бызы html и превращаем его в Spanneble текст
             tvDate.text = note.time
             // при нажатии на кнопку
             btnDelete.setOnClickListener {
