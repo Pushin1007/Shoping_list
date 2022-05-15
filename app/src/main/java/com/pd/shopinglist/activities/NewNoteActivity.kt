@@ -1,10 +1,12 @@
 package com.pd.shopinglist.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +20,7 @@ import com.pd.shopinglist.entities.NoteItem
 import com.pd.shopinglist.fragments.NoteFragment.Companion.EDIT_STATE_KEY
 import com.pd.shopinglist.fragments.NoteFragment.Companion.NEW_NOTE_KEY
 import com.pd.shopinglist.utils.HtmlManadger
+import com.pd.shopinglist.utils.MyTouchListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +35,12 @@ class NewNoteActivity : AppCompatActivity() {
         setContentView(binding.root)// подключаем байдинг
         actionBarSettings()
         getNote()
+        init()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun init() {
+        binding.colorPicker.setOnTouchListener(MyTouchListener()) // делаем перетаскивание colorPicker
     }
 
     private fun getNote() {
@@ -108,6 +117,9 @@ class NewNoteActivity : AppCompatActivity() {
         edDescription.text.trim() //функция удаляет все пробелы
         edDescription.setSelection(startPosition)//возвращаем курсор в начальную позицию
     }
+
+
+
 
     private fun setMainResult() {
         var editState = "new"
