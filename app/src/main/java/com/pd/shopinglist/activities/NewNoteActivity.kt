@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.pd.shopinglist.R
 import com.pd.shopinglist.databinding.ActivityNewNoteBinding
@@ -36,12 +37,24 @@ class NewNoteActivity : AppCompatActivity() {
         actionBarSettings()
         getNote()
         init()
+        onClickColorPicker()
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun init() {
+    private fun init() { //инициализируем функцию перетаскивания
         binding.colorPicker.setOnTouchListener(MyTouchListener()) // делаем перетаскивание colorPicker
     }
+
+    private fun onClickColorPicker() = with(binding) {  // делаем слушатель нажатий на цвета
+
+        imRed.setOnClickListener { setColorForSelectedText(R.color.picker_red) }
+        imBlack.setOnClickListener { setColorForSelectedText(R.color.picker_black) }
+        imBlue.setOnClickListener { setColorForSelectedText(R.color.picker_blue) }
+        imGreen.setOnClickListener { setColorForSelectedText(R.color.picker_green) }
+        imYellow.setOnClickListener { setColorForSelectedText(R.color.picker_yellow) }
+        imOrange.setOnClickListener { setColorForSelectedText(R.color.picker_orange) }
+    }
+
 
     private fun getNote() {
         val serializableNote = intent.getSerializableExtra(NEW_NOTE_KEY)
@@ -118,7 +131,25 @@ class NewNoteActivity : AppCompatActivity() {
         edDescription.setSelection(startPosition)//возвращаем курсор в начальную позицию
     }
 
-
+    //функция которая делает цвет текста
+    private fun setColorForSelectedText(colorId: Int) = with(binding) {
+        val startPosition = edDescription.selectionStart // начальная позиция выделенного текста
+        val endPosition = edDescription.selectionEnd // конечная позиция выделенного текста
+        val styles = edDescription.text.getSpans(
+            startPosition,
+            endPosition,
+            ForegroundColorSpan::class.java
+        )
+        if (styles.isNotEmpty()) edDescription.text.removeSpan(styles[0])
+        edDescription.text.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(this@NewNoteActivity, colorId)),
+            startPosition,
+            endPosition,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )// тип добавления
+        edDescription.text.trim() //функция удаляет все пробелы
+        edDescription.setSelection(startPosition)//возвращаем курсор в начальную позицию
+    }
 
 
     private fun setMainResult() {
