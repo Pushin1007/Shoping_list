@@ -8,6 +8,10 @@ import android.text.Spannable
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import com.pd.shopinglist.R
 import com.pd.shopinglist.databinding.ActivityNewNoteBinding
 import com.pd.shopinglist.entities.NoteItem
@@ -44,7 +48,9 @@ class NewNoteActivity : AppCompatActivity() {
         with(binding) { // эта функция запустится только если Note не равен null
 
             edTitle.setText(note?.title)
-            edDescription.setText(HtmlManadger.getFromHtml(note?.content!!).trim())// берем из бызы html и превращаем его в Spanneble текст
+            edDescription.setText(
+                HtmlManadger.getFromHtml(note?.content!!).trim()
+            )// берем из бызы html и превращаем его в Spanneble текст
 
         }
 
@@ -63,6 +69,12 @@ class NewNoteActivity : AppCompatActivity() {
             finish()
         } else if (item.itemId == R.id.id_bold) {
             setBoldForSelectedText()
+        } else if (item.itemId == R.id.id_color) {
+            if (binding.colorPicker.isShown) { // isShown показаг ли на экране
+                closeColorPicker()
+            } else {
+                openColorPicker()
+            }
         }
         return super.onOptionsItemSelected(item)
 
@@ -150,5 +162,31 @@ class NewNoteActivity : AppCompatActivity() {
     private fun actionBarSettings() {//подключаем кнопку назад в actionBar
         val ab = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun openColorPicker() {
+        binding.colorPicker.visibility = View.VISIBLE //делаем видимым колор пиккер
+        val openAnim = AnimationUtils.loadAnimation(this, R.anim.open_color_picker)
+        binding.colorPicker.startAnimation(openAnim)
+    }
+
+    private fun closeColorPicker() {
+
+        val openAnim = AnimationUtils.loadAnimation(this, R.anim.close_color_picker)
+        openAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(p0: Animation?) {
+
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+                binding.colorPicker.visibility = View.GONE //скрываем когда заканчивается анимация
+            }
+
+            override fun onAnimationRepeat(p0: Animation?) {
+
+            }
+
+        })
+        binding.colorPicker.startAnimation(openAnim)
     }
 }
