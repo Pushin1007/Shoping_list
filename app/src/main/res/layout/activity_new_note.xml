@@ -42,6 +42,7 @@
                 android:layout_height="0dp"
                 android:gravity="top"
                 android:hint="@string/description_hint"
+                android:inputType="textMultiLine"
                 android:padding="5dp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
