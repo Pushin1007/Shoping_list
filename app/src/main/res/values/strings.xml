@@ -8,5 +8,6 @@
     <string name="description_hint">Description</string>
     <string name="new_list_name">New List Name</string>
     <string name="list_name">List Name</string>
+    <string name="create_list">Create List</string>
 
 </resources>
